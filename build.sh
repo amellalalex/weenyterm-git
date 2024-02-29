@@ -4,4 +4,4 @@ set -x
 makepkg --force --syncdeps --noconfirm
 makepkg --printsrcinfo > .SRCINFO
 namcap PKGBUILD
-namcap wezterm*.pkg.tar.xz
+namcap weenyterm*.pkg.tar.xz

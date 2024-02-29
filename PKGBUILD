@@ -1,12 +1,12 @@
 # Maintainer:  Wez Furlong <wez at wezfurlong dot org>
 # Co-Maintainer: Bernat Gabor <gaborjbernat@gmail.com>
 
-pkgname=("wezterm-git")
-pkgdesc="A terminal emulator implemented in Rust, using OpenGL ES 2 for rendering."
+pkgname=("weenyterm-git")
+pkgdesc="The weeniest terminal for Arch Linux"
 pkgver=20240121.180215.76028ca1
 pkgrel=2
 arch=("x86_64" "i686")
-url="https://github.com/wez/wezterm"
+url="https://github.com/amellalalex/weenyterm"
 license=("MIT")
 depends=(
   "dbus"
@@ -21,10 +21,10 @@ depends=(
 )
 makedepends=("cargo" "cmake" "git" "pkgconf" "python")
 options=(!lto)
-provides=("wezterm" "wezterm-gui" "wezterm-mux-server" "wezterm-shell-integration" "wezterm-terminfo")
-conflicts=("wezterm" "wezterm-bin" "wezterm-nightly-bin" "wezterm-shell-integration" "wezterm-terminfo")
+provides=("weenyterm" "weenyterm-gui" "weenyterm-mux-server" "weenyterm-shell-integration" "weenyterm-terminfo")
+conflicts=("weenyterm" "weenyterm-bin" "weenyterm-nightly-bin" "weenyterm-shell-integration" "weenyterm-terminfo")
 source=(
-  "wezterm::git+https://github.com/wez/wezterm.git"
+  "weenyterm::git+https://github.com/amellalalex/weenyterm.git"
   "harfbuzz::git+https://github.com/harfbuzz/harfbuzz.git"
   "libpng::git+https://github.com/glennrp/libpng.git"
   "zlib::git+https://github.com/madler/zlib.git"
@@ -33,7 +33,7 @@ source=(
 sha256sums=("SKIP" "SKIP" "SKIP" "SKIP" "SKIP")
 
 prepare() {
-  cd "$srcdir/wezterm"
+  cd "$srcdir/weenyterm"
   git submodule init
   git config "submodule.harfbuzz/harfbuzz.url" "$srcdir/harfbuzz"
   git config "submodule.freetype/libpng.url" "$srcdir/libpng"
@@ -44,35 +44,35 @@ prepare() {
 }
 
 pkgver() {
-  cd "$srcdir/wezterm" || exit 1
+  cd "$srcdir/weenyterm" || exit 1
   git -c "core.abbrev=8" show -s "--format=%cd-%h" "--date=format:%Y%m%d-%H%M%S" | tr - .
 }
 
 build() {
-  cd "$srcdir/wezterm" || exit 1
+  cd "$srcdir/weenyterm" || exit 1
   bash ci/check-rust-version.sh
   cargo build --frozen --release
-  tic -x -o "$srcdir/terminfo" "$srcdir/wezterm/termwiz/data/wezterm.terminfo"
+  tic -x -o "$srcdir/terminfo" "$srcdir/weenyterm/termwiz/data/weenyterm.terminfo"
 }
 
 package() {
-  cd "$srcdir/wezterm" || exit 1
+  cd "$srcdir/weenyterm" || exit 1
 
-  install -Dsm755 target/release/wezterm "$pkgdir/usr/bin/wezterm"
-  install -Dsm755 target/release/wezterm-gui "$pkgdir/usr/bin/wezterm-gui"
-  install -Dsm755 target/release/wezterm-mux-server "$pkgdir/usr/bin/wezterm-mux-server"
+  install -Dsm755 target/release/weenyterm "$pkgdir/usr/bin/weenyterm"
+  install -Dsm755 target/release/weenyterm-gui "$pkgdir/usr/bin/weenyterm-gui"
+  install -Dsm755 target/release/weenyterm-mux-server "$pkgdir/usr/bin/weenyterm-mux-server"
   install -Dsm755 target/release/strip-ansi-escapes "$pkgdir/usr/bin/strip-ansi-escapes"
 
-  install -Dm644 assets/icon/terminal.png "$pkgdir/usr/share/icons/hicolor/128x128/apps/org.wezfurlong.wezterm.png"
-  install -Dm644 assets/wezterm.desktop "$pkgdir/usr/share/applications/org.wezfurlong.wezterm.desktop"
-  install -Dm644 assets/wezterm.appdata.xml "$pkgdir/usr/share/metainfo/org.wezfurlong.wezterm.appdata.xml"
-  install -Dm644 assets/wezterm-nautilus.py "$pkgdir/usr/share/nautilus-python/extensions/wezterm-nautilus.py"
-  install -Dm644 ../terminfo/w/wezterm "$pkgdir/usr/share/terminfo/w/wezterm"
+  install -Dm644 assets/icon/terminal.png "$pkgdir/usr/share/icons/hicolor/128x128/apps/org.wezfurlong.weenyterm.png"
+  install -Dm644 assets/weenyterm.desktop "$pkgdir/usr/share/applications/org.wezfurlong.weenyterm.desktop"
+  install -Dm644 assets/weenyterm.appdata.xml "$pkgdir/usr/share/metainfo/org.wezfurlong.weenyterm.appdata.xml"
+  install -Dm644 assets/weenyterm-nautilus.py "$pkgdir/usr/share/nautilus-python/extensions/weenyterm-nautilus.py"
+  install -Dm644 ../terminfo/w/weenyterm "$pkgdir/usr/share/terminfo/w/weenyterm"
 
-  install -Dm644 assets/shell-integration/wezterm.sh "$pkgdir/etc/profile.d/wezterm.sh"
-  install -Dm644 assets/shell-completion/bash "$pkgdir/usr/share/bash-completion/completions/wezterm"
-  install -Dm644 assets/shell-completion/zsh "$pkgdir/usr/share/zsh/site-functions/_wezterm"
-  install -Dm644 assets/shell-completion/fish "$pkgdir/usr/share/fish/completions/wezterm.fish"
+  install -Dm644 assets/shell-integration/weenyterm.sh "$pkgdir/etc/profile.d/weenyterm.sh"
+  install -Dm644 assets/shell-completion/bash "$pkgdir/usr/share/bash-completion/completions/weenyterm"
+  install -Dm644 assets/shell-completion/zsh "$pkgdir/usr/share/zsh/site-functions/_weenyterm"
+  install -Dm644 assets/shell-completion/fish "$pkgdir/usr/share/fish/completions/weenyterm.fish"
 
   install -Dm644 LICENSE.md -t "${pkgdir}/usr/share/licenses/${pkgname}"
 }
