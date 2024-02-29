@@ -1,5 +1,4 @@
-# Maintainer:  Wez Furlong <wez at wezfurlong dot org>
-# Co-Maintainer: Bernat Gabor <gaborjbernat@gmail.com>
+# Maintainer:  Alex Amellal <aur@alexamellal.com>
 
 pkgname=("weenyterm-git")
 pkgdesc="The weeniest terminal for Arch Linux"
